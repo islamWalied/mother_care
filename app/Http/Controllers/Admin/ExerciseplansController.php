@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Exerciseplans;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseplansRequest;
 use App\Http\Requests\UpdateExerciseplansRequest;
+use App\Models\Exerciseplans;
 
 class ExerciseplansController extends Controller
 {
