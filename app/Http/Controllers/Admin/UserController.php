@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -12,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $mother = User::all();
+        return UserResource::collection($mother);
     }
 
     /**
@@ -26,23 +33,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $created = User::query()->create($request->only([
+            'name','email','phone','password'
+        ]));
+        return new UserResource($created);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $mother)
     {
-        //
+        return new UserResource($mother);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $mother)
     {
         //
     }
@@ -50,16 +60,34 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $mother)
     {
-        //
+        $updated = $mother->update($request->only([
+            'name','email','password','phone',
+        ]));
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the user',
+            ],400);
+        }
+        return new UserResource($mother);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $mother)
     {
-        //
+        $deleted = $mother->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the user'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The user is deleted successfully'
+        ]);
     }
 }
