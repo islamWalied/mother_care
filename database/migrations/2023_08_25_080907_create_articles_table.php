@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->text("content");
-//            $table->string("author");
             $table->string("status");
+            $table->string("author");
             $table->date("publication_date");
             $table->string("image");
             $table->unsignedBigInteger("category_id");

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('ingredients');
             $table->string('instructions');
-//            $table->string('author');
-            $table->date('creation_date');
             $table->timestamps();
         });
     }
