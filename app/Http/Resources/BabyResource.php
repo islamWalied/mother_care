@@ -14,6 +14,11 @@ class BabyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->name,
+            'date_of_birth' => $this->date_of_birth,
+            'gender' => $this->gender,
+            'mom_id' => $this->mom_id,
+        ];
     }
 }

@@ -11,7 +11,7 @@ class UpdatebabyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdatebabyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'string',
+            'date_of_birth' => 'date',
+            'gender' => 'string',
+            'mom_id' => 'numeric',
         ];
     }
 }

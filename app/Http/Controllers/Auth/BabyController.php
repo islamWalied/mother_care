@@ -20,11 +20,10 @@ class BabyController extends Controller
      */
     public function index()
     {
-//        $baby = baby::all();
-//        return BabyResource::collection($baby);
+        $mom_id = Auth::user()->getId();
+        $baby = baby::query()->where('mom_id' ,'=', $mom_id)->get();
+        return BabyResource::collection($baby);
 
-//        $baby = baby::find(1);
-//        return $baby->user;
     }
 
     /**
@@ -38,20 +37,20 @@ class BabyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorebabyRequest $request)
     {
 //        $dateTime = Carbon::parse($request->date_of_birth);
 //        $mom_id = Auth::user()->id;
-//
-//        /*$request['date_of_birth'] = $dateTime->format('Y-m-d H:i:s');*/
-//
-//        $created = baby::query()->create([
-//            'name' => $request->name,
-//            'gender' => $request->gender,
-//            'date_of_birth' => $request->date_of_birth,
-//            'mom_id' => $mom_id,
-//        ]);
-//        return new BabyResource($created);
+
+        /*$request['date_of_birth'] = $dateTime->format('Y-m-d H:i:s');*/
+
+        $created = baby::query()->create([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'mom_id' => Auth::user()->getId(),
+        ]);
+        return new BabyResource($created);
 
     }
 
@@ -74,17 +73,28 @@ class BabyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatebabyRequest $request, baby $baby)
+    public function update(UpdatebabyRequest $request, baby $babies)
     {
-        //
+        $updated = $babies->update([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'mom_id' => Auth::user()->getId(),
+        ]);
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the baby',
+            ],400);
+        }
+        return new BabyResource($babies);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(baby $baby)
+    public function destroy(baby $babies)
     {
-        $deleted = $baby->forceDelete();
+        $deleted = $babies->forceDelete();
         if (!$deleted){
             return new JsonResponse([
                'errors' => 'failed to delete the baby'

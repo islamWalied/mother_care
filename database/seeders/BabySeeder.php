@@ -29,7 +29,25 @@ class BabySeeder extends Seeder
         baby::create([
             'name' => 'amera',
             'gender' => 'female',
+            'mom_id' => 1,
+            'date_of_birth' => fake()->date,
+        ]);
+        baby::create([
+            'name' => 'amera',
+            'gender' => 'female',
             'mom_id' => 3,
+            'date_of_birth' => fake()->date,
+        ]);
+        baby::create([
+            'name' => 'amera',
+            'gender' => 'female',
+            'mom_id' => 2,
+            'date_of_birth' => fake()->date,
+        ]);
+        baby::create([
+            'name' => 'amera',
+            'gender' => 'female',
+            'mom_id' => 1,
             'date_of_birth' => fake()->date,
         ]);
     }

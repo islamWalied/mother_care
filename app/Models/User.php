@@ -48,4 +48,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(baby::class,'mom_id');
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }

@@ -36,20 +36,19 @@ class BabyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorebabyRequest $request)
     {
 //        $dateTime = Carbon::parse($request->date_of_birth);
-//        $mom_id = Auth::user()->id;
-//
-//        /*$request['date_of_birth'] = $dateTime->format('Y-m-d H:i:s');*/
-//
-//        $created = baby::query()->create([
-//            'name' => $request->name,
-//            'gender' => $request->gender,
-//            'date_of_birth' => $request->date_of_birth,
-//            'mom_id' => $mom_id,
-//        ]);
-//        return new BabyResource($created);
+
+        /*$request['date_of_birth'] = $dateTime->format('Y-m-d H:i:s');*/
+
+        $created = baby::query()->create([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'mom_id' => $request->mom_id,
+        ]);
+        return new BabyResource($created);
 
     }
 
@@ -74,7 +73,18 @@ class BabyController extends Controller
      */
     public function update(UpdatebabyRequest $request, baby $baby)
     {
-        //
+        $updated = $baby->update([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'mom_id' => $request->mom_id,
+        ]);
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the baby',
+            ],400);
+        }
+        return new BabyResource($baby);
     }
 
     /**
