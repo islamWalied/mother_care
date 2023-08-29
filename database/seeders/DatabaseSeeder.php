@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(Admin::class);
         $this->call(BabySeeder::class);
+        $this->call(CategoriesSeeder::class);
+        $this->call(ArticlesSeeder::class);
+        $this->call(TipsSeeder::class);
+        $this->call(EventsSeeder::class);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

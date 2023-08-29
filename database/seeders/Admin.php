@@ -42,7 +42,7 @@ class Admin extends Seeder
             'remember_token' => Str::random(10),
             'phone' => "1326542",
             'age' => "1326542",
-            'is_admin' => 0,
+            'is_admin' => 1,
         ]);
     }
 }
