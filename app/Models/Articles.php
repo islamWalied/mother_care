@@ -8,4 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Articles extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'content',
+        'status',
+        'publication_date',
+        'image',
+        'category_id',
+    ];
+
+    protected $dates =["publication_date"];
+
+
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class,'category_id');
+    }
+
+    public function tips()
+    {
+        return $this->hasMany(Tips::class,'article_id');
+    }
 }

@@ -36,7 +36,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $created = User::query()->create($request->only([
-            'name','email','phone','password'
+            'name','email','phone','password',"age"
         ]));
         return new UserResource($created);
     }
@@ -63,7 +63,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $mother)
     {
         $updated = $mother->update($request->only([
-            'name','email','password','phone',
+            'name','email','phone','password',"age"
         ]));
         if (!$updated){
             return new JsonResponse([

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'age',
     ];
 
     /**
@@ -43,4 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function baby()
+    {
+        return $this->hasMany(baby::class,'mom_id');
+    }
 }

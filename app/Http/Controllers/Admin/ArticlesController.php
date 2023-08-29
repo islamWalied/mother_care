@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticlesRequest;
 use App\Http\Requests\UpdateArticlesRequest;
+use App\Http\Resources\ArticlesResource;
 use App\Models\Articles;
+use App\Models\Categories;
+use Illuminate\Http\JsonResponse;
 
 class ArticlesController extends Controller
 {
@@ -14,7 +17,8 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        //
+        $articles = Articles::all();
+        return ArticlesResource::collection($articles);
     }
 
     /**
@@ -30,7 +34,12 @@ class ArticlesController extends Controller
      */
     public function store(StoreArticlesRequest $request)
     {
-        //
+//        $image = $request->file('image')->store('articles');
+
+        $created = Articles::query()->create($request->only([
+            'title','content','publication_date','status','image','category_id'
+        ]));
+        return new ArticlesResource($created);
     }
 
     /**
@@ -38,7 +47,7 @@ class ArticlesController extends Controller
      */
     public function show(Articles $articles)
     {
-        //
+        return new ArticlesResource($articles);
     }
 
     /**
@@ -54,7 +63,18 @@ class ArticlesController extends Controller
      */
     public function update(UpdateArticlesRequest $request, Articles $articles)
     {
-        //
+//        $image = $request->file('image')->store('articles');
+
+        $updated = $articles->update($request->only([
+
+            'title','content','publication_date','status','image'
+        ]));
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the article',
+            ],400);
+        }
+        return new ArticlesResource($articles);
     }
 
     /**
@@ -62,6 +82,15 @@ class ArticlesController extends Controller
      */
     public function destroy(Articles $articles)
     {
-        //
+        $deleted = $articles->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the article'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The article is deleted successfully'
+        ]);
     }
 }

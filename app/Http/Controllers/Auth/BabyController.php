@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorebabyRequest;
@@ -20,9 +20,11 @@ class BabyController extends Controller
      */
     public function index()
     {
-        $baby = baby::all();
-        return BabyResource::collection($baby);
+//        $baby = baby::all();
+//        return BabyResource::collection($baby);
 
+//        $baby = baby::find(1);
+//        return $baby->user;
     }
 
     /**

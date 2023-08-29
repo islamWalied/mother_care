@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -13,13 +15,15 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'phone' => 'required|string',
-            'password' => 'required|string|confirmed'
+            'age' => 'required|numeric|min:1',
+            'phone' => 'required|numeric',
+            'password' => 'required|string'
         ]);
 
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
+            'age' => $fields['age'],
             'phone' => $fields['phone'],
             'password' => bcrypt($fields['password'])
         ]);
@@ -31,7 +35,12 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
+        return response($response,
+            201,
+            [
+                'Accept' => 'application/json',
+                'Content-type' => 'application/json',
+            ]);
     }
 
     public function login(Request $request) {
@@ -57,9 +66,14 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
+        return response(
+            $response,
+            201,
+            [
+                'Accept' => 'application/json',
+                'Content-type' => 'application/json',
+            ]);
     }
-
     public function logout(Request $request) {
         auth()->user()->tokens()->delete();
 
@@ -67,4 +81,5 @@ class AuthController extends Controller
             'message' => 'Logged out'
         ];
     }
+
 }

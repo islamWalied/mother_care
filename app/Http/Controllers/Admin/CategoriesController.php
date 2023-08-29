@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoriesRequest;
 use App\Http\Requests\UpdateCategoriesRequest;
+use App\Http\Resources\CategoriesResource;
+use App\Http\Resources\UserResource;
 use App\Models\Categories;
+use Illuminate\Http\JsonResponse;
 
 class CategoriesController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Categories::all();
+        return CategoriesResource::collection($categories);
     }
 
     /**
@@ -30,7 +34,10 @@ class CategoriesController extends Controller
      */
     public function store(StoreCategoriesRequest $request)
     {
-        //
+        $created = Categories::create([
+            'name' => $request->name,
+        ]);
+        return new CategoriesResource($created);
     }
 
     /**
@@ -38,7 +45,7 @@ class CategoriesController extends Controller
      */
     public function show(Categories $categories)
     {
-        //
+        return new CategoriesResource($categories);
     }
 
     /**
@@ -54,7 +61,15 @@ class CategoriesController extends Controller
      */
     public function update(UpdateCategoriesRequest $request, Categories $categories)
     {
-        //
+        $updated = $categories->update([
+            'name' => $request->name ?? $categories->name,
+        ]);
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the category',
+            ],400);
+        }
+        return new CategoriesResource($categories);
     }
 
     /**
@@ -62,6 +77,15 @@ class CategoriesController extends Controller
      */
     public function destroy(Categories $categories)
     {
-        //
+        $deleted = $categories->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the category'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The category is deleted successfully'
+        ]);
     }
 }

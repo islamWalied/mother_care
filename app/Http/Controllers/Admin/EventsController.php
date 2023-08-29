@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventsRequest;
 use App\Http\Requests\UpdateEventsRequest;
+use App\Http\Resources\EventsResource;
 use App\Models\Events;
+use Illuminate\Http\JsonResponse;
 
 class EventsController extends Controller
 {
@@ -14,7 +16,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        //
+        $events = Events::all();
+        return EventsResource::collection($events);
     }
 
     /**
@@ -30,7 +33,10 @@ class EventsController extends Controller
      */
     public function store(StoreEventsRequest $request)
     {
-        //
+        $created = Events::query()->create($request->only([
+            'title','description','location','date_time','organizer'
+        ]));
+        return new EventsResource($created);
     }
 
     /**
@@ -38,7 +44,7 @@ class EventsController extends Controller
      */
     public function show(Events $events)
     {
-        //
+        return new EventsResource($events);
     }
 
     /**
@@ -54,7 +60,15 @@ class EventsController extends Controller
      */
     public function update(UpdateEventsRequest $request, Events $events)
     {
-        //
+        $updated = $events->update($request->only([
+            'title','description','location','date_time','organizer'
+        ]));
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the event',
+            ],400);
+        }
+        return new EventsResource($events);
     }
 
     /**
@@ -62,6 +76,15 @@ class EventsController extends Controller
      */
     public function destroy(Events $events)
     {
-        //
+        $deleted = $events->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the event'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The event is deleted successfully'
+        ]);
     }
 }

@@ -11,7 +11,7 @@ class StoreTipsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreTipsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'article_id' => 'required|numeric',
+            'content' => 'required|string',
+            'creation_date' => 'required|date',
         ];
     }
 }

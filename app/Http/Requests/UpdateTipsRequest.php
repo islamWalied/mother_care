@@ -11,7 +11,7 @@ class UpdateTipsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateTipsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'article_id' => 'numeric',
+            'content' => 'string',
+            'creation_date' => 'date',
         ];
     }
 }

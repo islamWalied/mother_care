@@ -14,6 +14,10 @@ class TipsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'article_id' => $this->article_id,
+            'content' => $this->content,
+            'creation_date' => $this->creation_date,
+        ];
     }
 }
