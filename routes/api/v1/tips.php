@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TipsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,14 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin','auth:sanctum'])->group(function (){
 
-   Route::get('/mother',[UserController::class,'index']);
-
-   Route::get('/mother/{mother}',[UserController::class,'show']);
-
-   Route::post('/mother',[UserController::class,'store']);
-
-   Route::patch('/mother/{mother}',[UserController::class,'update']);
-
-   Route::delete('/mother/{mother}',[UserController::class,'destroy']);
-
+   Route::post('/tips',[TipsController::class,'store']);
+   Route::patch('/tips/{tips}',[TipsController::class,'update']);
+   Route::delete('/tips/{tips}',[TipsController::class,'destroy']);
 });
+
+Route::get('/tips',[TipsController::class,'index']);
+Route::get('/tips/{tips}',[TipsController::class,'show']);

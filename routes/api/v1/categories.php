@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoriesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,14 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin','auth:sanctum'])->group(function (){
 
-   Route::get('/mother',[UserController::class,'index']);
-
-   Route::get('/mother/{mother}',[UserController::class,'show']);
-
-   Route::post('/mother',[UserController::class,'store']);
-
-   Route::patch('/mother/{mother}',[UserController::class,'update']);
-
-   Route::delete('/mother/{mother}',[UserController::class,'destroy']);
-
+   Route::post('/categories',[CategoriesController::class,'store']);
+   Route::patch('/categories/{categories}',[CategoriesController::class,'update']);
+   Route::delete('/categories/{categories}',[CategoriesController::class,'destroy']);
 });
+Route::get('/categories',[CategoriesController::class,'index']);
+Route::get('/categories/{categories}',[CategoriesController::class,'show']);

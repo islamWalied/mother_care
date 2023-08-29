@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\UserController;
+
+use App\Http\Controllers\Admin\ArticlesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,15 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['admin','auth:sanctum'])->group(function (){
-
-   Route::get('/mother',[UserController::class,'index']);
-
-   Route::get('/mother/{mother}',[UserController::class,'show']);
-
-   Route::post('/mother',[UserController::class,'store']);
-
-   Route::patch('/mother/{mother}',[UserController::class,'update']);
-
-   Route::delete('/mother/{mother}',[UserController::class,'destroy']);
-
+   Route::post('/articles',[ArticlesController::class,'store']);
+   Route::patch('/articles/{articles}',[ArticlesController::class,'update']);
+   Route::delete('/articles/{articles}',[ArticlesController::class,'destroy']);
 });
+
+Route::get('/articles',[ArticlesController::class,'index']);
+Route::get('/articles/{articles}',[ArticlesController::class,'show']);
