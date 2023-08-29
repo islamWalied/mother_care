@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
+use App\Http\Resources\ProductsResource;
 use App\Models\Products;
+use Illuminate\Http\JsonResponse;
 
 class ProductsController extends Controller
 {
@@ -14,7 +16,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = Products::all();
+        return ProductsResource::collection($products);
     }
 
     /**
@@ -30,7 +33,10 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
-        //
+        $created = Products::query()->create($request->only([
+            'title','description','price','customer_reviews','image',
+        ]));
+        return new ProductsResource($created);
     }
 
     /**
@@ -38,7 +44,7 @@ class ProductsController extends Controller
      */
     public function show(Products $products)
     {
-        //
+        return new ProductsResource($products);
     }
 
     /**
@@ -54,7 +60,15 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Products $products)
     {
-        //
+        $updated = $products->update($request->only([
+            'title','description','price','customer_reviews','image',
+        ]));
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the product',
+            ],400);
+        }
+        return new ProductsResource($products);
     }
 
     /**
@@ -62,6 +76,15 @@ class ProductsController extends Controller
      */
     public function destroy(Products $products)
     {
-        //
+        $deleted = $products->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the product'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The product is deleted successfully'
+        ]);
     }
 }
