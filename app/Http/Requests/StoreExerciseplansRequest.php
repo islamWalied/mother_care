@@ -11,7 +11,7 @@ class StoreExerciseplansRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreExerciseplansRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'duration' => 'required|date',
+            'level' => 'required|string',
         ];
     }
 }

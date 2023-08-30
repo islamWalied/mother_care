@@ -35,7 +35,7 @@ class TipsController extends Controller
     public function store(StoreTipsRequest $request)
     {
         $created = Tips::query()->create($request->only([
-            'article_id','content','creation_date'
+            'article_id','content','author'
         ]));
         return new TipsResource($created);
     }
@@ -64,7 +64,7 @@ class TipsController extends Controller
     public function update(UpdateTipsRequest $request, Tips $tips)
     {
         $updated = $tips->update($request->only([
-            'article_id','content','creation_date'
+            'article_id','content','author'
         ]));
         if (!$updated){
             return new JsonResponse([

@@ -15,10 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('about_vacc');
             $table->date('date_of_vacc');
-            $table->unsignedBigInteger('mom_id');
-            $table->foreign('mom_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->unsignedBigInteger('baby_id');
-            $table->foreign('baby_id')->references('id')->on('babies')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

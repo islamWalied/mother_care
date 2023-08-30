@@ -37,7 +37,7 @@ class ArticlesController extends Controller
 //        $image = $request->file('image')->store('articles');
 
         $created = Articles::query()->create($request->only([
-            'title','content','publication_date','status','image','category_id'
+            'title','content','publication_date','status','image','category_id','author',
         ]));
         return new ArticlesResource($created);
     }
@@ -67,7 +67,7 @@ class ArticlesController extends Controller
 
         $updated = $articles->update($request->only([
 
-            'title','content','publication_date','status','image'
+            'title','content','publication_date','status','image','category_id','author',
         ]));
         if (!$updated){
             return new JsonResponse([

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreign('mom_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedBigInteger("product_id");
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

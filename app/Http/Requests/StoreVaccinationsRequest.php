@@ -11,7 +11,7 @@ class StoreVaccinationsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreVaccinationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'about_vacc' => 'required|string',
+            'date_of_vacc' => 'required|date',
         ];
     }
 }

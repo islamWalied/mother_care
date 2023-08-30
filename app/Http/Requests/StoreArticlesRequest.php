@@ -25,6 +25,7 @@ class StoreArticlesRequest extends FormRequest
             'title' => 'required|string',
             'content' => 'required|string',
             'status' => 'required|string',
+            'author' => 'required|string',
             'publication_date' => 'required|date',
             'image' => 'required|string',
             'category_id' => 'required|numeric',

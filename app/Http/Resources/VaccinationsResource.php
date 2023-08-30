@@ -14,6 +14,10 @@ class VaccinationsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'about_vacc' => $this->about_vacc,
+            'date_of_vacc' => $this->date_of_vacc,
+        ];
     }
 }

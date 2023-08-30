@@ -33,8 +33,14 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+//        $file = $request->file('image');
+//        $imageName = time().'.'.$file->extension();
+//        $imagePath = public_path(). '/products';
+//
+//        $file->move($imagePath, $imageName);
+        $image_path = $request->file('image')->store('image', 'public');
         $created = Products::query()->create($request->only([
-            'title','description','price','customer_reviews','image',
+            'title','description','price','customer_reviews',['image' => $image_path],
         ]));
         return new ProductsResource($created);
     }

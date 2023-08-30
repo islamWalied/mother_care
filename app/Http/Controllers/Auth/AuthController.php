@@ -31,7 +31,11 @@ class AuthController extends Controller
         $token = $user->createToken('myapptoken')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'age' => $user->age,
+            'phone' => $user->phone,
+            'is_admin' => $user->is_admin,
             'token' => $token
         ];
 
@@ -39,7 +43,7 @@ class AuthController extends Controller
             201,
             [
                 'Accept' => 'application/json',
-                'Content-type' => 'application/json',
+                'content-type' => 'application/json',
             ]);
     }
 
@@ -62,7 +66,11 @@ class AuthController extends Controller
         $token = $user->createToken('myapptoken')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'age' => $user->age,
+            'phone' => $user->phone,
+            'is_admin' => $user->is_admin,
             'token' => $token
         ];
 
@@ -71,7 +79,7 @@ class AuthController extends Controller
             201,
             [
                 'Accept' => 'application/json',
-                'Content-type' => 'application/json',
+                'content-type' => 'application/json',
             ]);
     }
     public function logout(Request $request) {

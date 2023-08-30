@@ -25,6 +25,7 @@ class UpdateArticlesRequest extends FormRequest
             'title' => 'string',
             'content' => 'string',
             'status' => 'string',
+            'author' => 'string',
             'publication_date' => 'date',
             'image' => 'string',
             'category_id' => 'numeric',

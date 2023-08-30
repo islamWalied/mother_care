@@ -11,7 +11,7 @@ class UpdateExerciseplansRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateExerciseplansRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'string',
+            'description' => 'string',
+            'duration' => 'date',
+            'level' => 'string',
         ];
     }
 }

@@ -17,4 +17,9 @@ class Events extends Model
         'organizer'
     ];
     protected $dates = ['date_time'];
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class,'mother_events','event_id','mom_id');
+    }
 }

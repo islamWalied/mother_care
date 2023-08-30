@@ -54,4 +54,21 @@ class User extends Authenticatable
         return $this->id;
     }
 
+
+    public function events()
+    {
+        return $this->belongsToMany(Events::class,'mother_events','mom_id','event_id');
+    }
+
+    public function exercise()
+    {
+        return $this->belongsToMany(Exerciseplans::class,'mother_exercises','mom_id','exercise_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Products::class,'mother_products','mom_id','product_id');
+    }
+
+
 }

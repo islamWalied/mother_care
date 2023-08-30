@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVaccinationsRequest;
 use App\Http\Requests\UpdateVaccinationsRequest;
+use App\Http\Resources\VaccinationsResource;
 use App\Models\Vaccinations;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class VaccinationsController extends Controller
 {
@@ -14,7 +17,8 @@ class VaccinationsController extends Controller
      */
     public function index()
     {
-        //
+        $vaccination = Vaccinations::all();
+        return VaccinationsResource::collection($vaccination);
     }
 
     /**
@@ -30,7 +34,11 @@ class VaccinationsController extends Controller
      */
     public function store(StoreVaccinationsRequest $request)
     {
-        //
+        $created = Vaccinations::query()->create([
+            'about_vacc' => $request->about_vacc,
+            'date_of_vacc'=> $request->date_of_vacc,
+        ]);
+        return new VaccinationsResource($created);
     }
 
     /**
@@ -38,7 +46,7 @@ class VaccinationsController extends Controller
      */
     public function show(Vaccinations $vaccinations)
     {
-        //
+        return new VaccinationsResource($vaccinations);
     }
 
     /**
@@ -54,7 +62,16 @@ class VaccinationsController extends Controller
      */
     public function update(UpdateVaccinationsRequest $request, Vaccinations $vaccinations)
     {
-        //
+        $updated = $vaccinations->update([
+            'about_vacc' => $request->about_vacc ?? $vaccinations->about_vacc,
+            'date_of_vacc'=> $request->date_of_vacc?? $vaccinations->date_of_vacc,
+        ]);
+        if (!$updated){
+            return new JsonResponse([
+                'errors' => 'failed to update the vaccination',
+            ],400);
+        }
+        return new VaccinationsResource($vaccinations);
     }
 
     /**
@@ -62,6 +79,15 @@ class VaccinationsController extends Controller
      */
     public function destroy(Vaccinations $vaccinations)
     {
-        //
+        $deleted = $vaccinations->forceDelete();
+
+        if(!$deleted){
+            return new JsonResponse([
+                'errors' => 'failed to delete the vaccination'
+            ],400);
+        }
+        return new JsonResponse([
+            'messages' => 'The vaccination is deleted successfully'
+        ]);
     }
 }

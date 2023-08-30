@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreign('mom_id')->references('id')->on('articles')->cascadeOnUpdate()->cascadeOnDelete();
             $table->decimal('total_price');
             $table->dateTime('date_time');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('articles')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('card_cvv');
             $table->integer('card_number');
             $table->integer('card_expiry');

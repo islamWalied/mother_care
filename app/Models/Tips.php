@@ -12,10 +12,9 @@ class Tips extends Model
     protected $fillable = [
         'article_id',
         'content',
-        'creation_date',
+        'author',
     ];
 
-    protected $dates =["creation_date"];
 
     public function articles()
     {

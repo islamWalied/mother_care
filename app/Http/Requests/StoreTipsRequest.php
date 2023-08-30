@@ -24,7 +24,7 @@ class StoreTipsRequest extends FormRequest
         return [
             'article_id' => 'required|numeric',
             'content' => 'required|string',
-            'creation_date' => 'required|date',
+            'author' => 'required|string',
         ];
     }
 }

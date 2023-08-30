@@ -24,7 +24,7 @@ class UpdateTipsRequest extends FormRequest
         return [
             'article_id' => 'numeric',
             'content' => 'string',
-            'creation_date' => 'date',
+            'author' => 'string',
         ];
     }
 }

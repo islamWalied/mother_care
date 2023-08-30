@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price');
             $table->string('image');
-//            $table->unsignedBigInteger('mom_id');
-//            $table->foreign('mom_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->unsignedBigInteger('pay_id');
+            $table->foreign('pay_id')->references('id')->on('payments')->cascadeOnUpdate()->cascadeOnDelete();
             $table->text('customer_reviews');
             $table->timestamps();
         });
